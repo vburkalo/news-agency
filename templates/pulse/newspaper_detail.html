@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Title: {{ newspaper.title }} <a class="btn btn-secondary" style="float: right" href="{% url 'pulse:newspaper-update' pk=newspaper.id %}">Edit</a></h1>
+    <p><strong>Published Date: </strong>{{ newspaper.published_date }}</p>
+    <p><strong>Content: </strong>{{ newspaper.content|linebreaks }}</p>
+    <div class="ml-3">
+        <h3>Topics:</h3>
+        {% for topic in newspaper.topic.all %}
+            <p>{{ topic.name }}</p>
+        {% empty %}
+            <p>No topics listed!</p>
+        {% endfor %}
+    </div>
+    <div class="ml-3">
+        <h3>Publishers:</h3>
+        {% for redactor in newspaper.publishers.all %}
+            <hr>
+            <p>{{ redactor.username }} ({{ redactor.years_of_experience }} years of experience)</p>
+        {% empty %}
+            <p>No publishers!</p>
+        {% endfor %}
+    </div>
+{% endblock %}
