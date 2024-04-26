@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>{{ redactor.username }}</h1>
+    <p><strong>Full Name: </strong>{{ redactor.first_name }} {{ redactor.last_name }}</p>
+    <p><strong>Years of Experience: </strong>{{ redactor.years_of_experience }}</p>
+    <p><strong>Email: </strong>{{ redactor.email }}</p>
+    <p><strong>Is staff: </strong>{{ redactor.is_staff|yesno:"Yes,No" }}</p>
+    <div class="ml-3">
+        <h3>Newspapers:</h3>
+        {% if redactor.newspaper_set.all %}
+            {% for newspaper in redactor.newspaper_set.all %}
+                <div>
+                    <p>id: {{ newspaper.id }}</p>
+                    <p><strong>Title: </strong><a href="{% url 'pulse:newspaper-detail' pk=newspaper.id %}">{{ newspaper.title }}</a></p>
+                    <p><strong>Published Date: </strong>{{ newspaper.published_date }}</p>
+                    <p><strong>Topics: </strong>{{ newspaper.topic.all|join:", " }}</p>
+                </div>
+                <hr>
+            {% empty %}
+                <p>No Newspapers!</p>
+            {% endfor %}
+        {% else %}
+            <p>No Newspapers!</p>
+        {% endif %}
+    </div>
+{% endblock %}
