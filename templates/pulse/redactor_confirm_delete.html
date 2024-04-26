@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Delete Redactor</h1>
+
+    <p>Are you sure you want to delete the redactor: {{ redactor.username }}?</p>
+    <p><i>Deleting this redactor will also remove all related associations from Newspapers and any other linked records!</i></p>
+    <form action="" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Yes, delete" class="btn btn-danger" />
+    </form>
+{% endblock %}
