@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Redactors List</h1>
+    <a class="btn btn-success" href="{% url 'pulse:redactor-create' %}" style="margin-bottom: 20px;">Add New Redactor</a>
+    
+    {% if redactors %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Years of Experience</th>
+                    <th>Email</th>
+                    <th>Update</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for redactor in redactors %}
+                <tr>
+                    <td>{{ redactor.id }}</td>
+                    <td>{{ redactor.username }}</td>
+                    <td>{{ redactor.years_of_experience }}</td>
+                    <td>{{ redactor.email }}</td>
+                    <td><a class="btn btn-primary" href="{% url 'pulse:redactor-update' pk=redactor.id %}">Update</a></td>
+                    <td><a class="btn btn-danger" href="{% url 'pulse:redactor-delete' pk=redactor.id %}">Delete</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No redactors available.</p>
+    {% endif %}
+{% endblock %}
