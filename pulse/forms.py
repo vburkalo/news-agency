@@ -32,7 +32,7 @@ class NewspaperForm(ModelForm):
         required=False,
     )
     publishers = forms.ModelMultipleChoiceField(
-        queryset=Redactor.objects.all(),
+        queryset=get_user_model().objects.all(),
         widget=forms.CheckboxSelectMultiple(),
         required=False,
     )
