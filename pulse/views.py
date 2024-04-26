@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.http import HttpRequest, HttpResponse
 
 from pulse.models import Topic, Redactor, Newspaper
-from pulse.forms import TopicForm, RedactorForm, NewspaperForm
+from pulse.forms import TopicForm, RedactorForm, NewspaperForm, NewspaperSearchForm
 
 
 def index(request: HttpRequest) -> HttpResponse:
@@ -78,6 +78,19 @@ class RedactorDeleteView(LoginRequiredMixin, generic.DeleteView):
 class NewspaperListView(LoginRequiredMixin, generic.ListView):
     model = Newspaper
     template_name = "pulse/newspaper_list.html"
+    context_object_name = "newspaper_list"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["search_form"] = NewspaperSearchForm(self.request.GET)
+        return context
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        form = NewspaperSearchForm(self.request.GET)
+        if form.is_valid():
+            pass
+        return queryset
 
 
 class NewspaperDetailView(LoginRequiredMixin, generic.DetailView):
