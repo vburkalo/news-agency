@@ -48,6 +48,7 @@ class TopicDeleteView(LoginRequiredMixin, generic.DeleteView):
 class RedactorListView(LoginRequiredMixin, generic.ListView):
     model = Redactor
     template_name = "pulse/redactor_list.html"
+    context_object_name = "redactors"
 
 
 class RedactorDetailView(LoginRequiredMixin, generic.DetailView):
