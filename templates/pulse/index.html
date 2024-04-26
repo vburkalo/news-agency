@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}
+  <title>Home page</title>
+{% endblock %}
+{% block content %}
+  <h1>Pulse News Portal</h1>
+  <h3>Welcome to the Pulse News Portal!</h3>
+  <h3>Current Statistics:</h3>
+  <ul>
+    <li>Number of Topics: {{ num_topics }}</li>
+    <li>Number of Redactors: {{ num_redactors }}</li>
+    <li>Number of Newspapers: {{ num_newspapers }}</li>
+  </ul>
+  <p>You have visited this page {{ num_visits }} time{{ num_visits|pluralize }}.</p>
+{% endblock %}
