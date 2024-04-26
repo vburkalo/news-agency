@@ -54,6 +54,7 @@ class RedactorListView(LoginRequiredMixin, generic.ListView):
 class RedactorDetailView(LoginRequiredMixin, generic.DetailView):
     model = Redactor
     template_name = "pulse/redactor_detail.html"
+    context_object_name = "redactor"
 
 
 class RedactorCreateView(LoginRequiredMixin, generic.CreateView):
