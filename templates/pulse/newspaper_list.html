@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% load crispy_forms_filters %}
 {% load crispy_forms_tags %}
 
 {% block content %}
@@ -15,6 +14,7 @@
                 <th>Title</th>
                 <th>Published Date</th>
                 <th>Topics</th>
+                <th>Actions</th>
             </tr>
             {% for newspaper in newspaper_list %}
                 <tr>
@@ -29,6 +29,10 @@
                     </td>
                     <td>
                         {{ newspaper.topic.all|join:", " }}
+                    </td>
+                    <td>
+                        <a href="{% url 'pulse:newspaper-update' pk=newspaper.id %}" class="btn btn-primary">Edit</a>
+                        <a href="{% url 'pulse:newspaper-confirm-delete' pk=newspaper.id %}" class="btn btn-danger">Delete</a>
                     </td>
                 </tr>
             {% endfor %}
