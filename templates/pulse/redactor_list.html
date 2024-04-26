@@ -12,6 +12,7 @@
                     <th>Username</th>
                     <th>Years of Experience</th>
                     <th>Email</th>
+                    <th>Details</th>
                     <th>Update</th>
                     <th>Delete</th>
                 </tr>
@@ -23,6 +24,7 @@
                     <td>{{ redactor.username }}</td>
                     <td>{{ redactor.years_of_experience }}</td>
                     <td>{{ redactor.email }}</td>
+                    <td><a class="btn btn-info" href="{% url 'pulse:redactor-detail' pk=redactor.id %}">Details</a></td>
                     <td><a class="btn btn-primary" href="{% url 'pulse:redactor-update' pk=redactor.id %}">Update</a></td>
                     <td><a class="btn btn-danger" href="{% url 'pulse:redactor-delete' pk=redactor.id %}">Delete</a></td>
                 </tr>
