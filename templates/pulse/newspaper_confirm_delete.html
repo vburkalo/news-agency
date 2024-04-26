@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Delete Newspaper</h1>
+    <p>Are you sure you want to delete the newspaper titled "{{ newspaper.title }}"?</p>
+    <form action="{% url 'pulse:newspaper-delete' pk=newspaper.id %}" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Yes, delete" class="btn btn-danger" />
+        <a href="{% url 'pulse:newspapers' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+{% endblock %}
