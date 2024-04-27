@@ -23,6 +23,7 @@ def index(request: HttpRequest) -> HttpResponse:
 class TopicListView(LoginRequiredMixin, generic.ListView):
     model = Topic
     template_name = "pulse/topic_list.html"
+    paginate_by = 5
 
 
 class TopicCreateView(LoginRequiredMixin, generic.CreateView):
