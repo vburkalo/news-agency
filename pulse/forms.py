@@ -75,3 +75,14 @@ class NewspaperSearchForm(forms.Form):
         label="",
         widget=forms.TextInput(attrs={"placeholder": "Search by title"}),
     )
+    published_date = forms.DateField(
+        required=False,
+        label="",
+        widget=forms.TextInput(attrs={"placeholder": "YYYY-MM-DD"}),
+    )
+    content = forms.CharField(
+        max_length=255,
+        required=False,
+        label="",
+        widget=forms.TextInput(attrs={"placeholder": "Search by content"}),
+    )
