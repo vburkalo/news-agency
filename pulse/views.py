@@ -83,6 +83,7 @@ class NewspaperListView(LoginRequiredMixin, generic.ListView):
     template_name = "pulse/newspaper_list.html"
     context_object_name = "newspaper_list"
     paginate_by = 5
+    ordering = ["published_date", "title"]
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -90,10 +91,10 @@ class NewspaperListView(LoginRequiredMixin, generic.ListView):
         return context
 
     def get_queryset(self):
-        queryset = super().get_queryset()
+        queryset = super().get_queryset().order_by("published_date", "title")
         form = NewspaperSearchForm(self.request.GET)
-        if form.is_valid():
-            pass
+        if form.is_valid() and form.cleaned_data.get("title"):
+            queryset = queryset.filter(title__icontains=form.cleaned_data["title"])
         return queryset
 
 
