@@ -1,7 +1,12 @@
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 from datetime import date
-from pulse.forms import TopicForm, RedactorForm, NewspaperForm, NewspaperSearchForm
+from pulse.forms import (
+    TopicForm,
+    RedactorForm,
+    NewspaperForm,
+    NewspaperSearchForm
+)
 from pulse.models import Topic
 
 
@@ -78,7 +83,9 @@ class NewspaperFormTest(TestCase):
 
 class NewspaperSearchFormTest(TestCase):
     def test_newspaper_search_form_valid(self):
-        form = NewspaperSearchForm(data={"title": "Test", "content": "Content"})
+        form = NewspaperSearchForm(
+            data={"title": "Test", "content": "Content"}
+        )
         self.assertTrue(form.is_valid())
 
     def test_newspaper_search_form_invalid(self):
