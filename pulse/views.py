@@ -51,7 +51,7 @@ class RedactorListView(LoginRequiredMixin, generic.ListView):
     template_name = "pulse/redactor_list.html"
     context_object_name = "redactors"
     paginate_by = 5
-    ordering = ['username']
+    ordering = ["username"]
 
 
 class RedactorDetailView(LoginRequiredMixin, generic.DetailView):
