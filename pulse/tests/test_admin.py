@@ -42,20 +42,26 @@ class AdminSiteTest(TestCase):
         self.assertContains(response, "redactor1")
 
     def test_newspaper_admin_filter_by_date(self):
-        url = reverse("admin:pulse_newspaper_changelist") + "?published_date__year=2023"
+        url = reverse(
+            "admin:pulse_newspaper_changelist"
+        ) + "?published_date__year=2023"
         response = self.client.get(url)
         self.assertContains(response, "Daily News")
 
     def test_newspaper_admin_filter_by_topic(self):
         url = (
-            reverse("admin:pulse_newspaper_changelist") + "?topic=" + str(self.topic.id)
+            reverse(
+                "admin:pulse_newspaper_changelist"
+            ) + "?topic=" + str(self.topic.id)
         )
         response = self.client.get(url)
         self.assertContains(response, "Daily News")
 
     def test_admin_site_access_non_admin_user(self):
         non_admin_user = get_user_model().objects.create_user(
-            username="nonadmin", email="nonadmin@test.com", password="password1234"
+            username="nonadmin",
+            email="nonadmin@test.com",
+            password="password1234"
         )
         self.client.force_login(non_admin_user)
         url = reverse("admin:index")
@@ -75,7 +81,9 @@ class AdminSiteTest(TestCase):
             },
         )
         self.assertEqual(response.status_code, 302)
-        self.assertTrue(Redactor.objects.filter(username="new_redactor").exists())
+        self.assertTrue(Redactor.objects.filter(
+            username="new_redactor"
+        ).exists())
 
     def test_redactor_admin_change_form(self):
         url = reverse("admin:pulse_redactor_change", args=(self.redactor.pk,))
@@ -111,11 +119,15 @@ class AdminSiteTest(TestCase):
         url = reverse("admin:pulse_newspaper_changelist")
         response = self.client.get(url)
         content = response.content.decode()
-        self.assertTrue(content.index("Earlier News") < content.index("Daily News"))
+        self.assertTrue(
+            content.index("Earlier News") < content.index("Daily News")
+        )
 
     def test_non_staff_user_admin_access(self):
         non_staff_user = get_user_model().objects.create_user(
-            username="nonstaff", email="nonstaff@test.com", password="password1234"
+            username="nonstaff",
+            email="nonstaff@test.com",
+            password="password1234"
         )
         self.client.force_login(non_staff_user)
         url = reverse("admin:index")
