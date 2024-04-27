@@ -5,7 +5,12 @@ from django.shortcuts import render
 from django.http import HttpRequest, HttpResponse
 
 from pulse.models import Topic, Redactor, Newspaper
-from pulse.forms import TopicForm, RedactorForm, NewspaperForm, NewspaperSearchForm
+from pulse.forms import (
+    TopicForm,
+    RedactorForm,
+    NewspaperForm,
+    NewspaperSearchForm
+)
 
 
 def index(request: HttpRequest) -> HttpResponse:
@@ -95,11 +100,17 @@ class NewspaperListView(LoginRequiredMixin, generic.ListView):
         form = NewspaperSearchForm(self.request.GET)
         if form.is_valid():
             if form.cleaned_data.get("title"):
-                queryset = queryset.filter(title__icontains=form.cleaned_data["title"])
+                queryset = queryset.filter(
+                    title__icontains=form.cleaned_data["title"]
+                )
             if form.cleaned_data.get("published_date"):
-                queryset = queryset.filter(published_date=form.cleaned_data["published_date"])
+                queryset = queryset.filter(
+                    published_date=form.cleaned_data["published_date"]
+                )
             if form.cleaned_data.get("content"):
-                queryset = queryset.filter(content__icontains=form.cleaned_data["content"])
+                queryset = queryset.filter(
+                    content__icontains=form.cleaned_data["content"]
+                )
         return queryset
 
 
