@@ -1,34 +1,65 @@
-{% extends 'base.html' %}
+{% extends 'layouts/base-presentation.html' %}
+{% load crispy_forms_filters %}
+
+{% block stylesheets %}
+    <!-- Additional CSS for this page -->
+{% endblock stylesheets %}
+
+{% block body_class %} index-page {% endblock body_class %}
 
 {% block content %}
-    <h1>Topic List <a class="btn btn-primary" style="float: right" href="{% url 'pulse:topic-create' %}">+</a></h1>
+    <header class="header-2">
+        <div class="page-header section-height-75 relative" style="background-image: url('{{ ASSETS_ROOT }}/img/curved-images/curved11.jpg')">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-7 text-center mx-auto">
+                        <h1 class="text-white pt-3 mt-n5">Topic List</h1>
+                        <p class="lead text-white mt-3">Browse our comprehensive list of topics</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
 
-    {% if topic_list %}
-        <table class="table">
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Update</th>
-                <th>Delete</th>
-            </tr>
-            {% for topic in topic_list %}
-                <tr>
-                    <td>
-                        {{ topic.id }}
-                    </td>
-                    <td>
-                        {{ topic.name }}
-                    </td>
-                    <td>
-                        <a href="{% url 'pulse:topic-update' pk=topic.id %}">UPDATE</a>
-                    </td>
-                    <td>
-                        <a href="{% url 'pulse:topic-delete' pk=topic.id %}">DELETE</a>
-                    </td>
-                </tr>
-            {% endfor %}
-        </table>
-    {% else %}
-        <p>There are no topics available.</p>
-    {% endif %}
-{% endblock %}
+    <section class="pt-3 pb-4" id="count-stats">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9 z-index-2 border-radius-xl mt-n10 mx-auto py-3 blur shadow-blur">
+                    <a class="btn btn-primary" style="float: right" href="{% url 'pulse:topic-create' %}">Add New Topic</a>
+                    {% if topic_list %}
+                        <table class="table">
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                            {% for topic in topic_list %}
+                                <tr>
+                                    <td>{{ topic.id }}</td>
+                                    <td>{{ topic.name }}</td>
+                                    <td>
+                                        <a href="{% url 'pulse:topic-update' pk=topic.id %}" class="btn btn-primary">Edit</a>
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'pulse:topic-delete' pk=topic.id %}" class="btn btn-danger">Delete</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    {% else %}
+                        <p>No topics available.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}
+
+{% block javascripts %}
+    <script src="{{ ASSETS_ROOT }}/js/plugins/countup.min.js"></script>
+    <script src="{{ ASSETS_ROOT }}/js/plugins/choices.min.js"></script>
+    <script src="{{ ASSETS_ROOT }}/js/plugins/rellax.min.js"></script>
+    <script src="{{ ASSETS_ROOT }}/js/plugins/tilt.min.js"></script>
+    <script src="{{ ASSETS_ROOT }}/js/soft-design-system.min.js?v=1.0.1" type="text/javascript"></script>
+{% endblock javascripts %}
