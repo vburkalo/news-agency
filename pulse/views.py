@@ -93,8 +93,13 @@ class NewspaperListView(LoginRequiredMixin, generic.ListView):
     def get_queryset(self):
         queryset = super().get_queryset().order_by("published_date", "title")
         form = NewspaperSearchForm(self.request.GET)
-        if form.is_valid() and form.cleaned_data.get("title"):
-            queryset = queryset.filter(title__icontains=form.cleaned_data["title"])
+        if form.is_valid():
+            if form.cleaned_data.get("title"):
+                queryset = queryset.filter(title__icontains=form.cleaned_data["title"])
+            if form.cleaned_data.get("published_date"):
+                queryset = queryset.filter(published_date=form.cleaned_data["published_date"])
+            if form.cleaned_data.get("content"):
+                queryset = queryset.filter(content__icontains=form.cleaned_data["content"])
         return queryset
 
 
