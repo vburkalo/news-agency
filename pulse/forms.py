@@ -24,6 +24,28 @@ class RedactorForm(UserCreationForm):
             "email",
         )
 
+    def __init__(self, *args, **kwargs):
+        super(RedactorForm, self).__init__(*args, **kwargs)
+        self.fields['password1'].required = False
+        self.fields['password2'].required = False
+
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        if self.instance and self.instance.pk:
+            if self.instance.username == username:
+                return username
+        if Redactor.objects.filter(username=username).exclude(pk=self.instance.pk).exists():
+            raise forms.ValidationError("A user with that username already exists.")
+        return username
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        if self.cleaned_data["password1"]:
+            user.set_password(self.cleaned_data["password1"])
+        if commit:
+            user.save()
+        return user
+
 
 class NewspaperForm(ModelForm):
     topic = forms.ModelMultipleChoiceField(
