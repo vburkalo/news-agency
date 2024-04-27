@@ -11,7 +11,9 @@ class IndexViewTest(TestCase):
         Topic.objects.create(name="Science")
         Redactor.objects.create(username="editor", password="password123")
         Newspaper.objects.create(
-            title="Daily News", content="Content here", published_date="2020-01-01"
+            title="Daily News",
+            content="Content here",
+            published_date="2020-01-01"
         )
 
     def test_index_view_status_code(self):
@@ -25,8 +27,10 @@ class IndexViewTest(TestCase):
     def test_index_view_context_data(self):
         response = self.client.get(reverse("pulse:index"))
         self.assertEqual(response.context["num_topics"], Topic.objects.count())
-        self.assertEqual(response.context["num_redactors"], Redactor.objects.count())
-        self.assertEqual(response.context["num_newspapers"], Newspaper.objects.count())
+        self.assertEqual(response.context["num_redactors"],
+                         Redactor.objects.count())
+        self.assertEqual(response.context["num_newspapers"],
+                         Newspaper.objects.count())
 
     def test_index_view_no_records(self):
         Topic.objects.all().delete()
@@ -47,7 +51,7 @@ class TopicListViewTest(TestCase):
 
     def setUp(self):
         User = get_user_model()
-        user = User.objects.create_user(username="testuser", password="12345")
+        User.objects.create_user(username="testuser", password="12345")
         self.client.login(username="testuser", password="12345")
 
     def test_view_url_exists_at_desired_location(self):
@@ -67,7 +71,7 @@ class TopicListViewTest(TestCase):
     def test_pagination_is_correct(self):
         response = self.client.get(reverse("pulse:topics"))
         self.assertTrue("is_paginated" in response.context)
-        self.assertTrue(response.context["is_paginated"] == True)
+        self.assertTrue(response.context["is_paginated"])
         self.assertEqual(len(response.context["topic_list"]), 5)
 
     def test_redirection_for_unauthenticated_users(self):
@@ -113,7 +117,10 @@ class TopicCRUDTests(TestCase):
     def test_update_topic(self):
         topic = Topic.objects.create(name="Old Topic")
         response = self.client.post(
-            reverse("pulse:topic-update", args=[topic.id]), {"name": "Updated Topic"}
+            reverse(
+                "pulse:topic-update",
+                args=[topic.id]),
+            {"name": "Updated Topic"}
         )
         self.assertEqual(response.status_code, 302)
         topic.refresh_from_db()
@@ -121,7 +128,9 @@ class TopicCRUDTests(TestCase):
 
     def test_delete_topic(self):
         topic = Topic.objects.create(name="Delete Topic")
-        response = self.client.post(reverse("pulse:topic-delete", args=[topic.id]))
+        response = self.client.post(
+            reverse("pulse:topic-delete", args=[topic.id])
+        )
         self.assertEqual(response.status_code, 302)
         self.assertFalse(Topic.objects.filter(name="Delete Topic").exists())
 
@@ -138,11 +147,14 @@ class RedactorListViewTest(TestCase):
     def setUpTestData(cls):
         number_of_redactors = 10
         for redactor_id in range(number_of_redactors):
-            Redactor.objects.create(username=f"user{redactor_id}", password="12345")
+            Redactor.objects.create(
+                username=f"user{redactor_id}",
+                password="12345")
 
     def setUp(self):
-        user = get_user_model().objects.create_user(
-            username="testuser", password="12345"
+        get_user_model().objects.create_user(
+            username="testuser",
+            password="12345"
         )
         self.client.login(username="testuser", password="12345")
 
@@ -175,7 +187,10 @@ class RedactorDetailViewTest(TestCase):
             username="testuser", password="12345"
         )
         self.client.login(username="testuser", password="12345")
-        self.redactor = Redactor.objects.create(username="detailuser", password="12345")
+        self.redactor = Redactor.objects.create(
+            username="detailuser",
+            password="12345"
+        )
 
     def test_view_url_accessible_by_name(self):
         response = self.client.get(
@@ -204,7 +219,10 @@ class RedactorCreateViewTest(TestCase):
             "password2": "newpass123",
             "years_of_experience": 5,
         }
-        response = self.client.post(reverse("pulse:redactor-create"), post_data)
+        response = self.client.post(
+            reverse("pulse:redactor-create"),
+            post_data
+        )
         self.assertEqual(response.status_code, 302)
         self.assertTrue(Redactor.objects.filter(username="newuser").exists())
 
@@ -231,7 +249,9 @@ class RedactorUpdateViewTest(TestCase):
             "password2": "newpass123",
         }
         response = self.client.post(
-            reverse("pulse:redactor-update", args=[self.redactor.id]), post_data
+            reverse(
+                "pulse:redactor-update",
+                args=[self.redactor.id]), post_data
         )
         if response.status_code != 302:
             print(response.context["form"].errors)
@@ -246,14 +266,19 @@ class RedactorDeleteViewTest(TestCase):
             username="testuser", password="12345"
         )
         self.client.login(username="testuser", password="12345")
-        self.redactor = Redactor.objects.create(username="deleteuser", password="12345")
+        self.redactor = Redactor.objects.create(
+            username="deleteuser",
+            password="12345"
+        )
 
     def test_delete_redactor(self):
         response = self.client.post(
             reverse("pulse:redactor-delete", args=[self.redactor.id])
         )
         self.assertEqual(response.status_code, 302)
-        self.assertFalse(Redactor.objects.filter(username="deleteuser").exists())
+        self.assertFalse(Redactor.objects.filter(
+            username="deleteuser").exists()
+                         )
 
 
 class NewspaperListViewTest(TestCase):
@@ -261,12 +286,15 @@ class NewspaperListViewTest(TestCase):
     def setUpTestData(cls):
         for i in range(10):
             Newspaper.objects.create(
-                title=f"Newspaper {i}", content="Content", published_date="2020-01-01"
+                title=f"Newspaper {i}",
+                content="Content",
+                published_date="2020-01-01"
             )
 
     def setUp(self):
-        user = get_user_model().objects.create_user(
-            username="testuser", password="12345"
+        get_user_model().objects.create_user(
+            username="testuser",
+            password="12345"
         )
         self.client.login(username="testuser", password="12345")
 
@@ -281,7 +309,9 @@ class NewspaperListViewTest(TestCase):
         self.assertEqual(len(response.context["newspaper_list"]), 5)
 
     def test_search_functionality(self):
-        response = self.client.get(reverse("pulse:newspapers") + "?title=Newspaper 0")
+        response = self.client.get(
+            reverse("pulse:newspapers") + "?title=Newspaper 0"
+        )
         self.assertEqual(len(response.context["newspaper_list"]), 1)
 
 
@@ -295,8 +325,9 @@ class NewspaperDetailViewTest(TestCase):
         )
 
     def setUp(self):
-        user = get_user_model().objects.create_user(
-            username="testuser", password="12345"
+        get_user_model().objects.create_user(
+            username="testuser",
+            password="12345"
         )
         self.client.login(username="testuser", password="12345")
 
@@ -321,8 +352,9 @@ class NewspaperDetailViewTest(TestCase):
 
 class NewspaperCreateViewTest(TestCase):
     def setUp(self):
-        user = get_user_model().objects.create_user(
-            username="testuser", password="12345"
+        get_user_model().objects.create_user(
+            username="testuser",
+            password="12345"
         )
         self.client.login(username="testuser", password="12345")
 
@@ -336,7 +368,9 @@ class NewspaperCreateViewTest(TestCase):
             },
         )
         self.assertEqual(response.status_code, 302)
-        self.assertTrue(Newspaper.objects.filter(title="New Newspaper").exists())
+        self.assertTrue(Newspaper.objects.filter(
+            title="New Newspaper").exists()
+                        )
 
 
 class NewspaperUpdateViewTest(TestCase):
@@ -349,8 +383,9 @@ class NewspaperUpdateViewTest(TestCase):
         )
 
     def setUp(self):
-        user = get_user_model().objects.create_user(
-            username="testuser", password="12345"
+        get_user_model().objects.create_user(
+            username="testuser",
+            password="12345"
         )
         self.client.login(username="testuser", password="12345")
 
@@ -372,12 +407,15 @@ class NewspaperDeleteViewTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.newspaper = Newspaper.objects.create(
-            title="To be deleted", content="Content", published_date="2020-01-01"
+            title="To be deleted",
+            content="Content",
+            published_date="2020-01-01"
         )
 
     def setUp(self):
-        user = get_user_model().objects.create_user(
-            username="testuser", password="12345"
+        get_user_model().objects.create_user(
+            username="testuser",
+            password="12345"
         )
         self.client.login(username="testuser", password="12345")
 
@@ -386,4 +424,6 @@ class NewspaperDeleteViewTest(TestCase):
             reverse("pulse:newspaper-delete", args=[self.newspaper.pk])
         )
         self.assertEqual(response.status_code, 302)
-        self.assertFalse(Newspaper.objects.filter(pk=self.newspaper.pk).exists())
+        self.assertFalse(Newspaper.objects.filter(
+            pk=self.newspaper.pk).exists()
+                         )
