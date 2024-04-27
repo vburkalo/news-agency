@@ -79,7 +79,10 @@ class RedactorModelTest(TestCase):
         self.assertEqual(updated_redactor.years_of_experience, 10)
 
     def test_redactor_authentication(self):
-        Redactor.objects.create_user(username="auth_user", password="testpass123")
+        Redactor.objects.create_user(
+            username="auth_user",
+            password="testpass123"
+        )
         user = authenticate(username="auth_user", password="testpass123")
         self.assertIsNotNone(user)
 
@@ -106,7 +109,9 @@ class NewspaperModelTest(TestCase):
         self.assertIn(self.redactor, self.newspaper.publishers.all())
 
     def test_fields(self):
-        self.assertEqual(self.newspaper._meta.get_field("title").max_length, 255)
+        self.assertEqual(
+            self.newspaper._meta.get_field("title").max_length, 255
+        )
         self.assertIsInstance(
             self.newspaper.published_date, type(timezone.now().date())
         )
