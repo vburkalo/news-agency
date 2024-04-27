@@ -13,7 +13,9 @@ class Redactor(AbstractUser):
     years_of_experience = models.IntegerField(default=0)
 
     def __str__(self):
-        return f"{self.username} ({self.years_of_experience} years of experience)"
+        return (
+            f"{self.username} ({self.years_of_experience} years of experience)"
+        )
 
 
 class Newspaper(models.Model):
