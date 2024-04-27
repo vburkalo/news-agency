@@ -34,8 +34,12 @@ class RedactorForm(UserCreationForm):
         if self.instance and self.instance.pk:
             if self.instance.username == username:
                 return username
-        if Redactor.objects.filter(username=username).exclude(pk=self.instance.pk).exists():
-            raise forms.ValidationError("A user with that username already exists.")
+        if Redactor.objects.filter(
+                username=username
+        ).exclude(pk=self.instance.pk).exists():
+            raise forms.ValidationError(
+                "A user with that username already exists."
+            )
         return username
 
     def save(self, commit=True):
