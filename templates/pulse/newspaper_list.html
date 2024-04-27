@@ -26,22 +26,29 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-9 z-index-2 border-radius-xl mt-n10 mx-auto py-3 blur shadow-blur">
-                    <form action="" method="get" class="form-inline d-flex justify-content-center">
-                        {{ search_form|crispy }}
-                        <button type="submit" class="btn btn-primary ms-2">
-                            <i class="fa fa-search"></i> Search
-                        </button>
-                    </form>
+                    <!-- Flex container to align elements inline -->
+                    <div class="d-flex justify-content-between align-items-center">
+                        <form action="" method="get" class="form-inline d-flex align-items-center mr-2">
+                            {{ search_form|crispy }}
+                            <button type="submit" class="btn btn-primary ms-2">
+                                <i class="fa fa-search"></i> Search
+                            </button>
+                        </form>
+                        <a class="btn btn-success" href="{% url 'pulse:newspaper-create' %}" style="margin-left: 10px;">Add New Newspaper</a>
+                    </div>
                     {% if newspaper_list %}
-                        <table class="table">
-                            <tr>
-                                <th>ID</th>
-                                <th>Title</th>
-                                <th>Published Date</th>
-                                <th>Topics</th>
-                                <th>Actions</th>
-                            </tr>
-                            {% for newspaper in newspaper_list %}
+                        <table class="table mt-3">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Title</th>
+                                    <th>Published Date</th>
+                                    <th>Topics</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for newspaper in newspaper_list %}
                                 <tr>
                                     <td>
                                         <a href="{% url 'pulse:newspaper-detail' pk=newspaper.id %}">{{ newspaper.id }}</a>
@@ -56,7 +63,8 @@
                                            class="btn btn-danger">Delete</a>
                                     </td>
                                 </tr>
-                            {% endfor %}
+                                {% endfor %}
+                            </tbody>
                         </table>
                     {% else %}
                         <p>No newspapers available.</p>
@@ -69,41 +77,10 @@
 
 <!-- Specific JS goes HERE -->
 {% block javascripts %}
-
     <script src="{{ ASSETS_ROOT }}/js/plugins/countup.min.js"></script>
     <script src="{{ ASSETS_ROOT }}/js/plugins/choices.min.js"></script>
     <script src="{{ ASSETS_ROOT }}/js/plugins/rellax.min.js"></script>
     <script src="{{ ASSETS_ROOT }}/js/plugins/tilt.min.js"></script>
     <script src="{{ ASSETS_ROOT }}/js/plugins/choices.min.js"></script>
-
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTTfWur0PDbZWPr7Pmq8K3jiDp0_xUziI"></script>
     <script src="{{ ASSETS_ROOT }}/js/soft-design-system.min.js?v=1.0.1" type="text/javascript"></script>
-    <script type="text/javascript">
-        if (document.getElementById('state1')) {
-            const countUp = new CountUp('state1', document.getElementById("state1").getAttribute("countTo"));
-            if (!countUp.error) {
-                countUp.start();
-            } else {
-                console.error(countUp.error);
-            }
-        }
-        if (document.getElementById('state2')) {
-            const countUp1 = new CountUp('state2', document.getElementById("state2").getAttribute("countTo"));
-            if (!countUp1.error) {
-                countUp1.start();
-            } else {
-                console.error(countUp1.error);
-            }
-        }
-        if (document.getElementById('state3')) {
-            const countUp2 = new CountUp('state3', document.getElementById("state3").getAttribute("countTo"));
-            if (!countUp2.error) {
-                countUp2.start();
-            } else {
-                console.error(countUp2.error);
-            }
-            ;
-        }
-    </script>
-
 {% endblock javascripts %}
