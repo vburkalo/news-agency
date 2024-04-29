@@ -4,3 +4,4 @@
 db.sqlite3
 dbsqlite3.drawio
 .env
+.env.sample
