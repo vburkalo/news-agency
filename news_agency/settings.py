@@ -26,11 +26,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DEBUG", "False") == "True"
+DEBUG = os.getenv("DJANGO_DEBUG", "") != "False"
 
-ALLOWED_HOSTS = (
-    os.getenv("ALLOWED_HOSTS", "").split(",") if os.getenv("ALLOWED_HOSTS") else []
-)
+ALLOWED_HOSTS = ["127.0.0.1"]
 
 
 # Application definition
@@ -139,7 +137,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "pulse.Redactor"
 
-LOGIN_REDIRECT_URL = "/pulse/"
+LOGIN_REDIRECT_URL = "/"
 
 INTERNAL_IPS = [
     "127.0.0.1",
