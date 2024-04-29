@@ -349,3 +349,6 @@ poetry.toml
 
 # LSP config files
 pyrightconfig.json
+
+# image
+demo.png
