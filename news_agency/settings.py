@@ -146,5 +146,3 @@ INTERNAL_IPS = [
 ]
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
-print("DEBUG:", DEBUG)
-print("DEBUG from env:", os.getenv("DEBUG"))
