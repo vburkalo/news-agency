@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DEBUG", "False") == "True"
+DEBUG = os.getenv("DJANGO_DEBUG", "") != "False"
 
 ALLOWED_HOSTS = ["127.0.0.1"]
 
@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "pulse",
     "crispy_forms",
-    "crispy_bootstrap4"
+    "crispy_bootstrap4",
+    "debug_toolbar",
 ]
 
 MIDDLEWARE = [
@@ -53,6 +54,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = "news_agency.urls"
