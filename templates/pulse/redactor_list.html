@@ -9,7 +9,8 @@
 
 {% block content %}
     <header class="header-2">
-        <div class="page-header section-height-75 relative" style="background-image: url('{{ ASSETS_ROOT }}/img/curved-images/curved11.jpg')">
+        <div class="page-header section-height-75 relative"
+             style="background-image: url('{{ ASSETS_ROOT }}/img/curved-images/curved11.jpg')">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-7 text-center mx-auto">
@@ -25,34 +26,71 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-9 z-index-2 border-radius-xl mt-n10 mx-auto py-3 blur shadow-blur">
-                    <a class="btn btn-success" href="{% url 'pulse:redactor-create' %}" style="margin-bottom: 20px;">Add New Redactor</a>
+                    <a class="btn btn-success" href="{% url 'pulse:redactor-create' %}" style="margin-bottom: 20px;">Add
+                        New Redactor</a>
                     {% if redactors %}
                         <table class="table">
                             <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Username</th>
-                                    <th>Years of Experience</th>
-                                    <th>Email</th>
-                                    <th>Details</th>
-                                    <th>Update</th>
-                                    <th>Delete</th>
-                                </tr>
+                            <tr>
+                                <th>ID</th>
+                                <th>Username</th>
+                                <th>Years of Experience</th>
+                                <th>Email</th>
+                                <th>Details</th>
+                                <th>Update</th>
+                                <th>Delete</th>
+                            </tr>
                             </thead>
                             <tbody>
-                                {% for redactor in redactors %}
+                            {% for redactor in redactors %}
                                 <tr>
                                     <td>{{ redactor.id }}</td>
                                     <td>{{ redactor.username }}</td>
                                     <td>{{ redactor.years_of_experience }}</td>
                                     <td>{{ redactor.email }}</td>
-                                    <td><a class="btn btn-info" href="{% url 'pulse:redactor-detail' pk=redactor.id %}">Details</a></td>
-                                    <td><a class="btn btn-primary" href="{% url 'pulse:redactor-update' pk=redactor.id %}">Update</a></td>
-                                    <td><a class="btn btn-danger" href="{% url 'pulse:redactor-delete' pk=redactor.id %}">Delete</a></td>
+                                    <td><a class="btn btn-info" href="{% url 'pulse:redactor-detail' pk=redactor.id %}">Details</a>
+                                    </td>
+                                    <td><a class="btn btn-primary"
+                                           href="{% url 'pulse:redactor-update' pk=redactor.id %}">Update</a></td>
+                                    <td><a class="btn btn-danger"
+                                           href="{% url 'pulse:redactor-delete' pk=redactor.id %}">Delete</a></td>
                                 </tr>
-                                {% endfor %}
+                            {% endfor %}
                             </tbody>
                         </table>
+                        {% if is_paginated %}
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination pagination-primary justify-content-center">
+                                    {% if page_obj.has_previous %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}"
+                                               aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                            </a>
+                                        </li>
+                                    {% else %}
+                                        <li class="page-item disabled">
+                                            <span class="page-link">&laquo;</span>
+                                        </li>
+                                    {% endif %}
+                                    <li class="page-item active">
+                                        <span class="page-link">{{ page_obj.number }} / {{ paginator.num_pages }}</span>
+                                    </li>
+                                    {% if page_obj.has_next %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page={{ page_obj.next_page_number }}"
+                                               aria-label="Next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                            </a>
+                                        </li>
+                                    {% else %}
+                                        <li class="page-item disabled">
+                                            <span class="page-link">&raquo;</span>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+                        {% endif %}
                     {% else %}
                         <p>No redactors available.</p>
                     {% endif %}

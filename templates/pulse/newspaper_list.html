@@ -26,7 +26,6 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-9 z-index-2 border-radius-xl mt-n10 mx-auto py-3 blur shadow-blur">
-                    <!-- Flex container to align elements inline -->
                     <div class="d-flex justify-content-between align-items-center">
                         <form action="" method="get" class="form-inline d-flex align-items-center mr-2">
                             {{ search_form|crispy }}
@@ -34,21 +33,22 @@
                                 <i class="fa fa-search"></i> Search
                             </button>
                         </form>
-                        <a class="btn btn-success" href="{% url 'pulse:newspaper-create' %}" style="margin-left: 10px;">Add New Newspaper</a>
+                        <a class="btn btn-success" href="{% url 'pulse:newspaper-create' %}" style="margin-left: 10px;">Add
+                            New Newspaper</a>
                     </div>
                     {% if newspaper_list %}
                         <table class="table mt-3">
                             <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Title</th>
-                                    <th>Published Date</th>
-                                    <th>Topics</th>
-                                    <th>Actions</th>
-                                </tr>
+                            <tr>
+                                <th>ID</th>
+                                <th>Title</th>
+                                <th>Published Date</th>
+                                <th>Topics</th>
+                                <th>Actions</th>
+                            </tr>
                             </thead>
                             <tbody>
-                                {% for newspaper in newspaper_list %}
+                            {% for newspaper in newspaper_list %}
                                 <tr>
                                     <td>
                                         <a href="{% url 'pulse:newspaper-detail' pk=newspaper.id %}">{{ newspaper.id }}</a>
@@ -63,9 +63,42 @@
                                            class="btn btn-danger">Delete</a>
                                     </td>
                                 </tr>
-                                {% endfor %}
+                            {% endfor %}
                             </tbody>
                         </table>
+                        {% if is_paginated %}
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination pagination-primary justify-content-center">
+                                    {% if page_obj.has_previous %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}"
+                                               aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                            </a>
+                                        </li>
+                                    {% else %}
+                                        <li class="page-item disabled">
+                                            <span class="page-link">&laquo;</span>
+                                        </li>
+                                    {% endif %}
+                                    <li class="page-item active">
+                                        <span class="page-link">{{ page_obj.number }} / {{ paginator.num_pages }}</span>
+                                    </li>
+                                    {% if page_obj.has_next %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page={{ page_obj.next_page_number }}"
+                                               aria-label="Next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                            </a>
+                                        </li>
+                                    {% else %}
+                                        <li class="page-item disabled">
+                                            <span class="page-link">&raquo;</span>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+                        {% endif %}
                     {% else %}
                         <p>No newspapers available.</p>
                     {% endif %}
