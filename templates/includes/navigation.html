@@ -305,21 +305,33 @@
                                     </div>
                                 </ul>
                             </li>
-                            <li class="nav-item ms-lg-auto">
-                                <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">
-                                    {% csrf_token %}
-                                </form>
-                                <a href="#" class="nav-link nav-link-icon me-2"
-                                   onclick="document.getElementById('logout-form').submit();">
-                                    <i class="fa fa-sign-out me-1"></i>
-                                    <p class="d-inline text-sm z-index-1 font-weight-bold" data-bs-toggle="tooltip"
-                                       data-bs-placement="bottom" title="Logout">Logout</p>
-                                </a>
-                            </li>
+                            {% if user.is_authenticated %}
+                                <li class="nav-item ms-lg-auto">
+                                    <form id="logout-form" action="{% url 'logout' %}" method="post"
+                                          style="display: none;">
+                                        {% csrf_token %}
+                                    </form>
+                                    <a href="#" class="nav-link nav-link-icon me-2"
+                                       onclick="document.getElementById('logout-form').submit();">
+                                        <i class="fa fa-sign-out me-1"></i>
+                                        <p class="d-inline text-sm z-index-1 font-weight-bold" data-bs-toggle="tooltip"
+                                           data-bs-placement="bottom" title="Logout">Logout</p>
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li class="nav-item ms-lg-auto">
+                                    <a href="{% url 'login' %}" class="nav-link nav-link-icon me-2">
+                                        <i class="fa fa-sign-in me-1"></i>
+                                        <p class="d-inline text-sm z-index-1 font-weight-bold" data-bs-toggle="tooltip"
+                                           data-bs-placement="bottom" title="Login">Login</p>
+                                    </a>
+                                </li>
+                            {% endif %}
                             <li class="nav-item my-auto ms-3 ms-lg-0">
                                 <a href="https://github.com/vburkalo/news-agency"
                                    target="_blank"
-                                   class="btn btn-sm  bg-gradient-primary btn-round mb-0 me-1 mt-2 mt-md-0">Check project on GitHub</a>
+                                   class="btn btn-sm  bg-gradient-primary btn-round mb-0 me-1 mt-2 mt-md-0">Check
+                                    project on GitHub</a>
                             </li>
                         </ul>
                     </div>
