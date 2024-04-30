@@ -28,25 +28,53 @@
                     <a class="btn btn-primary" style="float: right" href="{% url 'pulse:topic-create' %}">Add New Topic</a>
                     {% if topic_list %}
                         <table class="table">
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
-                            </tr>
-                            {% for topic in topic_list %}
+                            <thead>
                                 <tr>
-                                    <td>{{ topic.id }}</td>
-                                    <td>{{ topic.name }}</td>
-                                    <td>
-                                        <a href="{% url 'pulse:topic-update' pk=topic.id %}" class="btn btn-primary">Edit</a>
-                                    </td>
-                                    <td>
-                                        <a href="{% url 'pulse:topic-delete' pk=topic.id %}" class="btn btn-danger">Delete</a>
-                                    </td>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
                                 </tr>
-                            {% endfor %}
+                            </thead>
+                            <tbody>
+                                {% for topic in topic_list %}
+                                    <tr>
+                                        <td>{{ topic.id }}</td>
+                                        <td>{{ topic.name }}</td>
+                                        <td><a href="{% url 'pulse:topic-update' pk=topic.id %}" class="btn btn-primary">Edit</a></td>
+                                        <td><a href="{% url 'pulse:topic-delete' pk=topic.id %}" class="btn btn-danger">Delete</a></td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
                         </table>
+                        <!-- Pagination -->
+                        {% if is_paginated %}
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination pagination-primary justify-content-center">
+                                    {% if page_obj.has_previous %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                    <li class="page-item active">
+                                        <span class="page-link">{{ page_obj.number }} / {{ paginator.num_pages }}</span>
+                                    </li>
+                                    {% if page_obj.has_next %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                            </a>
+                                        </li>
+                                    {% else %}
+                                        <li class="page-item disabled">
+                                            <span class="page-link">&raquo;</span>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+                        {% endif %}
                     {% else %}
                         <p>No topics available.</p>
                     {% endif %}
